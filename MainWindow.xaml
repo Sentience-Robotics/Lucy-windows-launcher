@@ -1,0 +1,166 @@
+﻿<Window x:Class="LucyWindowsLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Lucy Launcher" Height="800" Width="1300"
+        Background="#141414" Foreground="#FFFFFF"
+        WindowStyle="None" ResizeMode="NoResize"
+        Icon="/LucyWindowsLauncher;component/assets/logo.ico" FontFamily="Cascadia Mono" FontSize="12"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType"
+        UseLayoutRounding="True" SnapsToDevicePixels="True"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="SecondaryButton">
+            <Setter Property="Background" Value="#1F1F1F"/>
+            <Setter Property="Foreground" Value="#00FF41"/>
+            <Setter Property="BorderBrush" Value="#00FF41"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="16,9"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="MinHeight" Value="36"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True"><Setter Property="Foreground" Value="#FFFFFF"/></Trigger>
+                            <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value=".4"/></Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="PrimaryButton" BasedOn="{StaticResource SecondaryButton}">
+            <Setter Property="Background" Value="#00FF41"/>
+            <Setter Property="Foreground" Value="#000000"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="20,10"/>
+        </Style>
+        <Style TargetType="TabControl">
+            <Setter Property="Background" Value="#0A0A0A"/>
+            <Setter Property="BorderBrush" Value="#303030"/>
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="Background" Value="#1A1A1A"/>
+            <Setter Property="Foreground" Value="#999999"/>
+            <Setter Property="BorderBrush" Value="#303030"/>
+            <Setter Property="Padding" Value="14,8"/>
+            <Setter Property="Margin" Value="0,0,3,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="TabBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1,1,1,0" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="TabBorder" Property="Background" Value="#00FF41"/>
+                                <Setter Property="Foreground" Value="#000000"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="False"/>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="TabBorder" Property="Background" Value="#252525"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="CheckBox" x:Key="ToolToggle">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,0,0,3"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#1F1F1F"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#3A3A3A"/>
+            <Setter Property="Padding" Value="7,5"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="38"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+        <Border Grid.Row="0" Background="#0A0A0A" BorderBrush="#00FF41" BorderThickness="0,0,0,1"
+                MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+            <Grid Margin="12,0,8,0">
+                <TextBlock Text="LUCY LAUNCHER" Foreground="#00FF41" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+                <Button Content="✕" Width="26" Height="26" HorizontalAlignment="Right" Background="Transparent"
+                        BorderThickness="0" Foreground="#00FF41" Click="CloseButton_Click"/>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="18">
+            <Grid.ColumnDefinitions><ColumnDefinition Width="1.8*"/><ColumnDefinition Width="3.2*"/></Grid.ColumnDefinitions>
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+
+            <StackPanel Grid.ColumnSpan="2" Margin="0,0,0,18">
+                <TextBlock Text="Configure your Lucy session" FontSize="24" FontWeight="Bold" Foreground="#00FF41"/>
+                <TextBlock Text="Select the components to start alongside the Windows Pixi environment." Foreground="#999999" Margin="0,5,0,0"/>
+            </StackPanel>
+
+            <Border Grid.Row="1" Grid.Column="0" Background="#1A1A1A" BorderBrush="#303030" BorderThickness="1" Padding="16" Margin="0,0,12,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="WORKSPACE" Foreground="#00FF41" FontWeight="Bold" Margin="0,0,0,7"/>
+                        <DockPanel Margin="0,0,0,20">
+                            <Button DockPanel.Dock="Right" BorderThickness="2" Content="Browse..." Style="{StaticResource SecondaryButton}" Padding="11,7" Click="BrowseWorkspaceButton_Click"/>
+                            <TextBox Name="WorkspaceTextBox" Margin="0,0,8,0"/>
+                        </DockPanel>
+                        <TextBlock Text="TOOLS" Foreground="#00FF41" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <Border Background="#202020" BorderBrush="#00FF41" BorderThickness="2" Padding="12" Margin="0,0,0,10">
+                            <StackPanel>
+                                <CheckBox Name="CoreCheckBox" Style="{StaticResource ToolToggle}" Content="Core (Lucy Bringup)" Checked="ToolCheckBox_Changed" Unchecked="ToolCheckBox_Changed"/>
+                                <TextBlock Text="Base robot software stack" Foreground="#999999" FontSize="11" Margin="22,0,0,4"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Background="#202020" BorderBrush="#303030" BorderThickness="1" Padding="12" Margin="0,0,0,10">
+                            <StackPanel>
+                                <CheckBox Name="RobotInmoovCheckBox" Style="{StaticResource ToolToggle}" Content="Robot: InMoov" Checked="ToolCheckBox_Changed" Unchecked="ToolCheckBox_Changed"/>
+                                <TextBlock Text="robot_package:=inmoov_urdf" Foreground="#999999" FontSize="11" Margin="22,0,0,4"/>
+                                <CheckBox Name="GazeboCheckBox" Style="{StaticResource ToolToggle}" Content="... with Simulator (Gazebo)" Checked="ToolCheckBox_Changed" Unchecked="ToolCheckBox_Changed"/>
+                                <CheckBox Name="HeadlessCheckBox" Style="{StaticResource ToolToggle}" Content="    ... headless" IsEnabled="False" Checked="ToolCheckBox_Changed" Unchecked="ToolCheckBox_Changed"/>
+                                <CheckBox Name="RvizCheckBox" Style="{StaticResource ToolToggle}" Content="... with Visualizer (RViz)" Checked="ToolCheckBox_Changed" Unchecked="ToolCheckBox_Changed"/>
+                                <CheckBox Name="RealCheckBox" Style="{StaticResource ToolToggle}" Content="... with Real Hardware" Checked="ToolCheckBox_Changed" Unchecked="ToolCheckBox_Changed"/>
+                            </StackPanel>
+                        </Border>
+                        <TextBlock Text="INTERFACES &amp; TOOLS" Foreground="#00FF41" FontWeight="Bold" Margin="0,4,0,10"/>
+                        <CheckBox Name="ControlPanelCheckBox" Style="{StaticResource ToolToggle}" Content="Control Panel  ·  Web UI" Checked="ToolCheckBox_Changed" Unchecked="ToolCheckBox_Changed"/>
+                        <CheckBox Name="LucyCliCheckBox" Style="{StaticResource ToolToggle}" Content="Lucy CLI  ·  Terminal UI" Checked="ToolCheckBox_Changed" Unchecked="ToolCheckBox_Changed"/>
+                        <CheckBox Name="RqtCheckBox" Style="{StaticResource ToolToggle}" Content="rqt GUI" Checked="ToolCheckBox_Changed" Unchecked="ToolCheckBox_Changed"/>
+                        <CheckBox Name="ConsoleCheckBox" Style="{StaticResource ToolToggle}" Content="Open Console" Checked="ToolCheckBox_Changed" Unchecked="ToolCheckBox_Changed"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="1" Background="#0A0A0A" BorderBrush="#303030" BorderThickness="1" Padding="16">
+                <Grid>
+                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                    <DockPanel Margin="0,0,0,10">
+                        <TextBlock Text="COMMAND OUTPUT " Foreground="#00FF41" FontWeight="Bold"/>
+                        <TextBlock Name="StatusTextBlock" DockPanel.Dock="Right" Text="READY" Foreground="#999999"/>
+                    </DockPanel>
+                    <TabControl Grid.Row="1" Name="ProcessTabs" Background="#0A0A0A" BorderBrush="#303030"/>
+                </Grid>
+            </Border>
+
+            <DockPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="0,16,0,0">
+                <TextBlock Name="SelectionSummaryTextBlock" Text="No tools selected" Foreground="#999999" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Name="StopButton" Content="Stop All" Style="{StaticResource SecondaryButton}" IsEnabled="False" Click="StopButton_Click"/>
+                    <Button Name="StartButton" Content="Start Selected" Style="{StaticResource PrimaryButton}" Click="StartButton_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</Window>
